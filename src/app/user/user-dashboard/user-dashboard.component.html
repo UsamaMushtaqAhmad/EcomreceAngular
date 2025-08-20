@@ -1,5 +1,5 @@
-<div class="dashboard">
-  <h2>User Dashboard</h2>
-  <p>Welcome {{ authService.getCurrentUser()?.name }}!</p>
-  <button (click)="logout()" class="logout-btn">Logout</button>
+<app-navbar></app-navbar>
+
+<div class="p-4 mt-4">
+  <router-outlet></router-outlet>
 </div>

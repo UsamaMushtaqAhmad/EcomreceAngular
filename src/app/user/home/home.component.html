@@ -1,0 +1,57 @@
+<div class="relative w-full h-[500px] overflow-hidden rounded-3xl shadow-2xl group">
+
+  <!-- Slides -->
+  <div class="flex transition-transform duration-1000 ease-in-out"
+       [style.transform]="'translateX(-' + currentSlide * 100 + '%)'">
+    <div *ngFor="let slide of slides" class="w-full flex-shrink-0 relative">
+
+      <!-- Background Image with fade scale -->
+      <img [src]="slide.img"
+           class="w-full h-[500px] object-cover brightness-75 transform scale-105 transition-transform duration-1000 group-hover:scale-110" />
+
+      <!-- Overlay with gradient -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent flex flex-col items-center justify-center text-center px-6">
+        
+        <!-- Title -->
+        <h2 class="text-white text-5xl md:text-6xl font-extrabold drop-shadow-xl animate-fade-in">
+          {{ slide.text }}
+        </h2>
+
+        <!-- Subtitle -->
+        <p class="text-gray-200 mt-6 text-lg md:text-xl max-w-2xl animate-slide-up">
+          Discover our premium collection with up to <span class="text-yellow-400 font-bold">50% OFF</span> this season!
+        </p>
+
+        <!-- Shop Now Button -->
+        <button
+          class="mt-8 px-8 py-4 bg-gradient-to-r from-pink-500 via-purple-600 to-blue-600 text-white text-lg font-bold rounded-full shadow-2xl backdrop-blur-md border border-white/20
+          transform transition duration-300 hover:scale-110 hover:shadow-[0_0_20px_5px_rgba(59,130,246,0.6)]">
+          Shop Now →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prev Button -->
+  <button (click)="prevSlide()"
+    class="absolute top-1/2 left-6 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white rounded-full p-4 shadow-lg backdrop-blur-md transition">
+    ‹
+  </button>
+
+  <!-- Next Button -->
+  <button (click)="nextSlide()"
+    class="absolute top-1/2 right-6 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white rounded-full p-4 shadow-lg backdrop-blur-md transition">
+    ›
+  </button>
+
+  <!-- Pagination Dots -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-4">
+    <button *ngFor="let slide of slides; let i = index"
+      (click)="goToSlide(i)"
+      [class.bg-gradient-to-r]="currentSlide === i"
+      [class.from-pink-500]="currentSlide === i"
+      [class.to-blue-500]="currentSlide === i"
+      class="w-5 h-5 rounded-full bg-white/40 hover:bg-white shadow-md transition-all duration-300">
+    </button>
+  </div>
+</div>

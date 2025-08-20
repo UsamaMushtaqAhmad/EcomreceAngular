@@ -1,0 +1,95 @@
+<nav class="fixed top-0 left-0 right-0 z-50 shadow-lg backdrop-blur-md border-b border-gray-700">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-18">
+      
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a routerLink="/user/dashboard" class="flex items-center space-x-3 text-white">
+          <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center shadow-lg shadow-purple-500/50">
+            <i class="fas fa-shopping-bag text-xl text-white animate-pulse"></i>
+          </div>
+          <span class="text-xl font-bold hidden sm:block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+            ShopZone
+          </span>
+        </a>
+      </div>
+
+      <!-- Desktop Links -->
+      <div class="hidden md:flex items-center space-x-6">
+        <a routerLink="/user/dashboard" (click)="setActiveTab('home')" 
+           [ngClass]="activeTab==='home' ? 'text-purple-400' : 'text-gray-300 hover:text-purple-400'" 
+           class="transition-colors duration-300">Home</a>
+        <a routerLink="/user/dashboard/products" (click)="setActiveTab('products')" 
+           [ngClass]="activeTab==='products' ? 'text-purple-400' : 'text-gray-300 hover:text-purple-400'" 
+           class="transition-colors duration-300">Products</a>
+        <a routerLink="/user/dashboard/cart" (click)="setActiveTab('cart')" 
+           [ngClass]="activeTab==='cart' ? 'text-purple-400' : 'text-gray-300 hover:text-purple-400'" 
+           class="transition-colors duration-300 relative">
+           Cart 
+           <span *ngIf="cartCount>0" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs px-2 rounded-full">
+             {{cartCount}}
+           </span>
+        </a>
+        <a routerLink="/user/dashboard/orders" (click)="setActiveTab('orders')" 
+           [ngClass]="activeTab==='orders' ? 'text-purple-400' : 'text-gray-300 hover:text-purple-400'" 
+           class="transition-colors duration-300">Orders</a>
+        <a routerLink="/user/dashboard/profile" (click)="setActiveTab('profile')" 
+           [ngClass]="activeTab==='profile' ? 'text-purple-400' : 'text-gray-300 hover:text-purple-400'" 
+           class="transition-colors duration-300">Profile</a>
+      </div>
+
+      <!-- Profile / Mobile -->
+      <div class="flex items-center space-x-4">
+        <!-- Profile Dropdown -->
+        <div class="relative hidden md:block profile-dropdown">
+          <button (click)="toggleProfile()" class="flex items-center space-x-2 text-gray-200 hover:text-purple-400 transition">
+            
+            <!-- Profile Image Circle -->
+            <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center overflow-hidden">
+              <!-- Agar profilePic ho to image show hogi -->
+              <img *ngIf="authService.getCurrentUser()?.profilePic; else defaultIcon"
+                   [src]="authService.getCurrentUser()?.profilePic" 
+                   alt="Profile" 
+                   class="w-full h-full object-cover">
+            </div>
+
+            <!-- Default Icon (Agar profilePic na ho) -->
+            <ng-template #defaultIcon>
+              <i class="fas fa-user text-gray-300 text-sm"></i>
+            </ng-template>
+
+            <!-- User Name -->
+            <span>{{ authService.getCurrentUser()?.name || 'User' }}</span>
+
+            <!-- Dropdown Icon -->
+            <i class="fas fa-chevron-down transition-transform" [class.rotate-180]="isProfileOpen"></i>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div *ngIf="isProfileOpen" class="absolute right-0 mt-2 w-48 bg-gray-900 border border-gray-700 text-gray-200 rounded-lg shadow-lg">
+            <a routerLink="/user/dashboard/profile" class="block px-4 py-2 hover:bg-gray-800">Profile</a>
+            <button (click)="logout()" class="w-full text-left px-4 py-2 hover:bg-gray-800 text-red-500">Logout</button>
+          </div>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button (click)="toggleMobileMenu()" class="md:hidden p-2 text-gray-300 hover:text-purple-400">
+          <i class="fas fa-bars "></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div *ngIf="isMobileMenuOpen" class="md:hidden mt-2 space-y-2 px-2 pb-2 bg-gray-900 rounded-lg border border-gray-700">
+      <a routerLink="/user/dashboard" (click)="setActiveTab('home')" class="block text-gray-300 hover:text-purple-400">Home</a>
+      <a routerLink="/user/dashboard/products" (click)="setActiveTab('products')" class="block text-gray-300 hover:text-purple-400">Products</a>
+      <a routerLink="/user/dashboard/cart" (click)="setActiveTab('cart')" class="block text-gray-300 hover:text-purple-400">Cart</a>
+      <a routerLink="/user/dashboard/orders" (click)="setActiveTab('orders')" class="block text-gray-300 hover:text-purple-400">Orders</a>
+      <a routerLink="/user/dashboard/profile" (click)="setActiveTab('profile')" class="block text-gray-300 hover:text-purple-400">Profile</a>
+      <button (click)="logout()" class="w-full text-left text-red-500 hover:text-red-600">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Spacer -->
+<div class="h-16 lg:h-18"></div>
