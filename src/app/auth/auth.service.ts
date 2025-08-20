@@ -1,61 +1,75 @@
-// import { Injectable } from '@angular/core';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class AuthService {
-
-//   constructor() { }
-// }
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router'; // Router add kiya
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7087/api/Auth'; // Aapka backend URL
-  public currentUser: any = null;
+  private apiUrl = 'https://localhost:7087/api/Auth';
+  private tokenKey = 'authToken';
+  private userKey = 'currentUser';
 
-  constructor(private http: HttpClient) {
-    // Page reload par user ko wapas set karna
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-      this.currentUser = JSON.parse(savedUser);
-    }
+  constructor(private http: HttpClient, private router: Router) {}
+
+  register(name: string, email: string, password: string): Observable<any> {
+    const userData = { name, email, password };
+    return this.http.post(`${this.apiUrl}/register`, userData).pipe(
+      tap((response: any) => {
+        this.saveTokenAndUser(response.token, response.user);
+      })
+    );
   }
 
-  // Register function
-  register(name: string, email: string, password: string) {
-    const userData = { name: name, email: email, password: password };
-    return this.http.post(`${this.apiUrl}/register`, userData);
+  login(email: string, password: string): Observable<any> {
+    const userData = { email, password };
+    return this.http.post(`${this.apiUrl}/login`, userData).pipe(
+      tap((response: any) => {
+        this.saveTokenAndUser(response.token, response.user);
+        // Role-based redirect
+        const user = response.user;
+        if (user.role === 'admin') {
+          this.router.navigate(['/admin/dashboard']);
+        } else {
+          this.router.navigate(['/user/dashboard']);
+        }
+      })
+    );
   }
 
-  // Login function  
-  login(email: string, password: string) {
-    const userData = { email: email, password: password };
-    return this.http.post(`${this.apiUrl}/login`, userData);
+  logout(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
+      tap(() => this.clearStorage())
+    );
   }
 
-  // Logout function
-  logout() {
-    return this.http.post(`${this.apiUrl}/logout`, {});
+  getCurrentUser(): any {
+    const user = localStorage.getItem(this.userKey);
+    return user ? JSON.parse(user) : null;
   }
 
-  // User ko save karna
-  saveUser(user: any) {
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    this.currentUser = user;
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
   }
 
-  // Check karna user logged in hai ya nahi
   isLoggedIn(): boolean {
-    return this.currentUser !== null;
+    return !!this.getToken();
   }
 
-  // User ko clear karna logout ke time
-  clearUser() {
-    localStorage.removeItem('currentUser');
-    this.currentUser = null;
+  isAdmin(): boolean {
+    const user = this.getCurrentUser();
+    return user && user.role === 'admin';
+  }
+
+  private saveTokenAndUser(token: string, user: any): void {
+    localStorage.setItem(this.tokenKey, token);
+    localStorage.setItem(this.userKey, JSON.stringify(user));
+  }
+
+  private clearStorage(): void {
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.userKey);
   }
 }

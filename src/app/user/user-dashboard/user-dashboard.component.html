@@ -1,0 +1,5 @@
+<div class="dashboard">
+  <h2>User Dashboard</h2>
+  <p>Welcome {{ authService.getCurrentUser()?.name }}!</p>
+  <button (click)="logout()" class="logout-btn">Logout</button>
+</div>
