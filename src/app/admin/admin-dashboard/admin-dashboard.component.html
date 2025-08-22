@@ -1,6 +1,65 @@
-<div class="dashboard">
-  <h2>Admin Dashboard</h2>
-  <p>Welcome {{ authService.getCurrentUser()?.name }}!</p>
-  <button routerLink="/admin/upload" class="btn">➕ Add Product</button>
-  <button (click)="logout()" class="logout-btn">Logout</button>
-</div>
+<div class="admin-shell">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="logo">⚡</span>
+      <span class="title">Admin Panel</span>
+    </div>
+    <nav class="nav">
+      <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span>🏠</span><span>Dashboard</span>
+      </a>
+      <a routerLink="/admin/products" routerLinkActive="active"><span>🛍️</span><span>Products</span></a>
+      <a routerLink="/admin/orders" routerLinkActive="active"><span>📦</span><span>Orders</span></a>
+      <a routerLink="/admin/users" routerLinkActive="active"><span>👥</span><span>Users</span></a>
+      <a routerLink="/admin/settings" routerLinkActive="active"><span>⚙️</span><span>Settings</span></a>
+    </nav>
+    <button (click)="logout()" class="btn logout compact">🚪 Logout</button>
+  </aside>
+
+
+  <!-- Main Content -->
+  <main class="content">
+    <!-- Topbar -->
+    <header class="topbar">
+      <h2>Dashboard</h2>
+      <div class="top-actions">
+        <div class="search">
+          <input type="text" placeholder="Search…" aria-label="Search" />
+        </div>
+        <div class="user">
+          <span class="avatar">{{ (authService.getCurrentUser()?.name || 'Admin')[0] }}</span>
+          <div class="info">
+            <div class="name">Welcome, {{ authService.getCurrentUser()?.name || 'Admin' }} 👋</div>
+            <div class="role">Administrator</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- Welcome / CTA -->
+    <section class="welcome card">
+      <div class="text">
+        <h3>Manage your store with ease</h3>
+        <p>Quickly add products, view orders, and monitor performance.</p>
+        <div class="actions">
+          <button routerLink="/admin/upload-product" class="btn primary">➕ Add Product</button>
+          <button routerLink="/admin/orders" class="btn">📦 View Orders</button>
+          <button routerLink="/admin/products" class="btn">🛍️ Manage Products</button>
+        </div>
+      </div>
+      <div class="art">📈</div>
+    </section>
+
+
+    <!-- KPI Cards -->
+    <section class="stats">
+      <div class="stat card">
+        <div class="stat-top">
+          <span class="icon">🛍️</span>
+          <span class="chip success">+12%</span>
+        </div>
+        <div class="value">1,248</div>
+        <div class="label">Total Products</div>
+      </div>

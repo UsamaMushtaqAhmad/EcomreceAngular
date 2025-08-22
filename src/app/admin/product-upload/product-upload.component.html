@@ -1,41 +1,79 @@
-<div class="max-w-xl mx-auto bg-gray-900 p-6 rounded-2xl shadow-lg space-y-6">
-  <h2 class="text-2xl font-bold text-white">Add New Product</h2>
+<div class="max-w-2xl mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-8 rounded-2xl shadow-2xl space-y-6 border border-gray-700 " style="margin-top: 5px;">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <h2 class="text-3xl font-extrabold text-white tracking-wide">➕ Add New Product</h2>
+    <span class="px-3 py-1 text-xs font-semibold bg-purple-600/30 text-purple-300 rounded-full">Admin</span>
+  </div>
 
-  <form (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+  <form (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="space-y-5">
     <!-- Name -->
-    <input type="text" [(ngModel)]="product.name" name="name" placeholder="Product Name"
-           class="w-full p-3 rounded bg-gray-800 text-white" required />
+    <div>
+      <label class="block text-gray-300 text-sm mb-1">Product Name</label>
+      <input type="text" [(ngModel)]="product.name" name="name"
+             placeholder="Enter product name"
+             class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-purple-500 focus:outline-none" required />
+    </div>
 
     <!-- Description -->
-    <textarea [(ngModel)]="product.description" name="description" placeholder="Description"
-              class="w-full p-3 rounded bg-gray-800 text-white"></textarea>
+    <div>
+      <label class="block text-gray-300 text-sm mb-1">Description</label>
+      <textarea [(ngModel)]="product.description" name="description"
+                placeholder="Write product details..."
+                rows="3"
+                class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea>
+    </div>
 
-    <!-- Price -->
-    <input type="number" [(ngModel)]="product.price" name="price" placeholder="Price"
-           class="w-full p-3 rounded bg-gray-800 text-white" required />
+    <!-- Grid (Price & Stock) -->
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-gray-300 text-sm mb-1">Price ($)</label>
+        <input type="number" [(ngModel)]="product.price" name="price"
+               placeholder="0.00"
+               class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-pink-500 focus:outline-none" required />
+      </div>
 
-    <!-- Stock -->
-    <input type="number" [(ngModel)]="product.stock" name="stock" placeholder="Stock"
-           class="w-full p-3 rounded bg-gray-800 text-white" required />
+      <div>
+        <label class="block text-gray-300 text-sm mb-1">Stock</label>
+        <input type="number" [(ngModel)]="product.stock" name="stock"
+               placeholder="0"
+               class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-pink-500 focus:outline-none" required />
+      </div>
+    </div>
 
     <!-- Category Dropdown -->
-    <select [(ngModel)]="product.categoryId" name="categoryId" class="w-full p-3 rounded bg-gray-800 text-white">
-      <option *ngFor="let cat of categories" [value]="cat.categoryId">{{cat.categoryName}}</option>
-    </select>
+    <div>
+      <label class="block text-gray-300 text-sm mb-1">Category</label>
+      <select [(ngModel)]="product.categoryId" name="categoryId"
+              class="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-purple-500 focus:outline-none">
+        <option value="" disabled selected>Select category</option>
+        <option *ngFor="let cat of categories" [value]="cat.categoryId">
+          {{cat.categoryName}}
+        </option>
+      </select>
+    </div>
 
     <!-- Hot Seller Checkbox -->
-    <label class="flex items-center text-white space-x-2">
-      <input type="checkbox" [(ngModel)]="product.isHotSeller" name="isHotSeller"/>
-      <span>Hot Seller?</span>
-    </label>
+    <div class="flex items-center space-x-2">
+      <input type="checkbox" [(ngModel)]="product.isHotSeller" name="isHotSeller"
+             class="w-5 h-5 text-purple-600 rounded focus:ring-2 focus:ring-purple-500" />
+      <label class="text-gray-300">Hot Seller?</label>
+    </div>
 
-    <!-- Image Upload -->
-    <input type="file" (change)="onFileSelected($event)" class="text-white"/>
+    <!-- File Upload -->
+    <div>
+      <label class="block text-gray-300 text-sm mb-1">Upload Image</label>
+      <input type="file" (change)="onFileSelected($event)"
+             class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4
+                    file:rounded-lg file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-purple-600 file:text-white
+                    hover:file:bg-purple-700 cursor-pointer"/>
+    </div>
 
     <!-- Submit Button -->
     <button type="submit"
-            class="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-lg">
-      Save Product
+            class="w-full py-3 mt-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-lg shadow-lg transition-all">
+      🚀 Save Product
     </button>
   </form>
 </div>
