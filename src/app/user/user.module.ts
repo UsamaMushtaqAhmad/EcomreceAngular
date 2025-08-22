@@ -7,13 +7,15 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { UserRoutingModule } from './user-routing.module';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { HomeComponent } from './home/home.component';
+import { ProductsComponent } from './products/products.component';
 
 
 @NgModule({
   declarations: [
     UserDashboardComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    ProductsComponent
   ],
   imports: [
     CommonModule,

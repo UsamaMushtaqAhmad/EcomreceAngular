@@ -1,0 +1,58 @@
+<div class="p-8 space-y-16 bg-gradient-to-b from-gray-950 via-gray-900 to-black min-h-screen">
+
+  <div *ngFor="let cat of categoriesWithProducts" class="space-y-8">
+    
+    <!-- Category Heading -->
+    <div class="flex items-center justify-between">
+      <h2 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 tracking-wide">
+        {{cat.categoryName}}
+      </h2>
+      <a href="#" class="text-sm text-purple-400 hover:text-pink-400 transition">View All →</a>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      
+      <div *ngFor="let product of cat.products"
+           class="group bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-2xl shadow-xl p-5 border border-gray-700 hover:border-purple-600 hover:shadow-purple-500/30 transition-all duration-500 relative overflow-hidden">
+
+        <!-- Glow Animation Background -->
+        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
+          <div class="absolute -inset-20 bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-400 blur-3xl animate-pulse"></div>
+        </div>
+
+        <!-- Product Image -->
+        <div class="relative h-56 w-full rounded-xl overflow-hidden flex items-center justify-center bg-gray-800 shadow-lg">
+          <img [src]="'https://localhost:7087' + product.imageUrl"
+               alt="{{product.name}}"
+               class="h-full w-full object-cover transform group-hover:scale-110 transition duration-700 ease-out"/>
+          <span *ngIf="!product.imageUrl" class="text-gray-400">No Image</span>
+
+          <!-- Quick View Button -->
+          <button class="absolute bottom-3 right-3 px-3 py-1.5 text-xs rounded-lg bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-all">
+            Quick View
+          </button>
+        </div>
+
+        <!-- Product Info -->
+        <div class="mt-5 space-y-2 relative z-10">
+          <h3 class="text-lg font-bold text-white group-hover:text-purple-400 transition truncate">{{product.name}}</h3>
+          <p class="text-sm text-gray-400 italic">{{cat.categoryName}}</p>
+          <p class="text-sm text-gray-300 line-clamp-2">{{product.description}}</p>
+
+          <div class="flex items-center justify-between mt-4">
+            <p class="text-sm text-green-400 font-medium">Stock: {{product.stock}}</p>
+            <p class="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+              Rs {{product.price}}
+            </p>
+          </div>
+        </div>
+
+        <!-- Add to Cart Button -->
+        <button class="mt-5 w-full py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition">
+          🛒 Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

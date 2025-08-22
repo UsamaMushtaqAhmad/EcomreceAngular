@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-home',
@@ -13,11 +14,18 @@ export class HomeComponent {
     { id: 3, img: 'assets/images/image4.jpg', text: 'Exclusive Deals' },
   ];
 
+  hotSellers: any[] = [];
+newArrivals: any[] = [];
+
+  constructor(private productService: ProductService) {} // ✅ inject ProductService
+
   currentSlide = 0;
   intervalId: any;
 
   ngOnInit() {
     this.startAutoPlay();
+      this.loadHotSellers();
+  this.loadNewArrivals();
   }
 
   startAutoPlay() {
@@ -41,4 +49,12 @@ export class HomeComponent {
   goToSlide(index: number) {
     this.currentSlide = index;
   }
+
+  loadHotSellers() {
+  this.productService.getHotSellers().subscribe(res => this.hotSellers = res);
+}
+
+loadNewArrivals() {
+  this.productService.getNewArrivals().subscribe(res => this.newArrivals = res);
+}
 }

@@ -4,10 +4,12 @@ import { FormsModule } from '@angular/forms';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { ProductUploadComponent } from './product-upload/product-upload.component';
 
 @NgModule({
   declarations: [
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    ProductUploadComponent
   ],
   imports: [
     CommonModule,

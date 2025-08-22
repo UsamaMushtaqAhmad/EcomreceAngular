@@ -1,5 +1,6 @@
 <div class="dashboard">
   <h2>Admin Dashboard</h2>
   <p>Welcome {{ authService.getCurrentUser()?.name }}!</p>
+  <button routerLink="/admin/upload" class="btn">➕ Add Product</button>
   <button (click)="logout()" class="logout-btn">Logout</button>
 </div>
